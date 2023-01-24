@@ -25,7 +25,7 @@ export const useTags = () => {
       const trimmedInput = tagInput.trim();
 
       if (
-        (key === "," || key === "Enter") &&
+        key === "Enter" &&
         trimmedInput.length &&
         !tags.includes(trimmedInput)
       ) {
@@ -58,10 +58,27 @@ export const useTags = () => {
     [isKeyReleased, tagInput, tags]
   );
 
-  const onTagChange = useCallback((e: any) => {
-    const { value } = e.target;
-    setTagInput(value);
-  }, []);
+  const onTagChange = useCallback(
+    (e: any) => {
+      const { value } = e.target;
+      if (value[value.length - 1] === ",") {
+        const trimmedValue = value.trim().slice(0, -1);
+        if (trimmedValue.length && !tags.includes(trimmedValue)) {
+          setTags((prevState) => [...prevState, trimmedValue]);
+          const loadedState = loadState("_form");
+          const formData = {
+            ...loadedState,
+            tags: [...tags, trimmedValue],
+          };
+          localStorage.setItem("_form", JSON.stringify(formData));
+          setTagInput("");
+        }
+      } else {
+        setTagInput(value);
+      }
+    },
+    [tags]
+  );
 
   const onTagKeyUp = () => {
     setIsKeyReleased(true);

@@ -18,7 +18,7 @@ const TagItem = styled.div`
   color: white;
 `;
 
-const TagButton = styled.button`
+const TagButton = styled.div`
   height: 20px;
   width: 20px;
   display: flex;
@@ -290,40 +290,41 @@ export default function Home() {
       <Header />
       <Wrapper>
         <LMContainer>
+          <Section>
+            <Label>Nhập danh sách</Label>
+            <Description>
+              Điền tiên từng người một, gõ xong ấn dấu phẩy (,) để thêm vào danh
+              sách
+            </Description>
+            <TagWrapper>
+              {tags.map((tag, index) => (
+                <TagItem className="pl-3 pr-2 py-1 mr-2 my-1" key={tag}>
+                  {tag}
+                  <TagButton
+                    className="pl-3"
+                    onClick={(e: any) => {
+                      deleteTag(index);
+                    }}
+                  >
+                    x
+                  </TagButton>
+                </TagItem>
+              ))}
+            </TagWrapper>
+            <InputField
+              className="mt-3 mb-6"
+              value={tagInput}
+              name="number"
+              id="number"
+              type={"text"}
+              placeholder="Thêm người"
+              onKeyDown={onTagKeyDown}
+              onChange={onTagChange}
+              onKeyUp={onTagKeyUp}
+              fullWidth={true}
+            />
+          </Section>
           <form onSubmit={onSubmit} ref={formRef}>
-            <Section>
-              <Label>Nhập danh sách</Label>
-              <Description>
-                Điền tiên từng người một, gõ xong ấn dấu phẩy (,) để thêm vào
-                danh sách
-              </Description>
-              <TagWrapper>
-                {tags.map((tag, index) => (
-                  <TagItem className="pl-3 pr-2 py-1 mr-2 my-1" key={tag}>
-                    {tag}
-                    <TagButton
-                      className="pl-3"
-                      onClick={() => deleteTag(index)}
-                    >
-                      x
-                    </TagButton>
-                  </TagItem>
-                ))}
-              </TagWrapper>
-              <InputField
-                className="mt-3 mb-6"
-                value={tagInput}
-                name="number"
-                id="number"
-                type={"text"}
-                placeholder="Thêm người"
-                onKeyDown={onTagKeyDown}
-                onChange={onTagChange}
-                onKeyUp={onTagKeyUp}
-                fullWidth={true}
-              />
-            </Section>
-
             <Section>
               <Label>Nhập số lượng mệnh giá</Label>
               <Description>
