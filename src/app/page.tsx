@@ -105,7 +105,7 @@ const PriceInputComp = ({
   );
 };
 
-export function handleInputChange(
+function handleInputChange(
   event: any,
   setState: (v: any) => void,
   formRef:
