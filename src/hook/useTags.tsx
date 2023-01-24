@@ -1,25 +1,42 @@
-import { useState, useCallback } from "react";
+import { loadState } from "@/utils";
+import { useState, useCallback, useEffect } from "react";
 
 export const useTags = () => {
   const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState([
-    "Thỏ",
-    "Bèo",
-    "Lá",
-    "Dóe",
-    "Lông",
-    "Trang",
-  ] as string[]);
+  const [tags, setTags] = useState([] as string[]);
   const [isKeyReleased, setIsKeyReleased] = useState(false);
+
+  useEffect(() => {
+    const loadedState = loadState("_form");
+    const tags = loadedState?.tags || [
+      "Thỏ",
+      "Bèo",
+      "Lá",
+      "Dóe",
+      "Lông",
+      "Trang",
+    ];
+    setTags(tags);
+  }, []);
 
   const onTagKeyDown = useCallback(
     (e: any) => {
       const { key } = e;
       const trimmedInput = tagInput.trim();
 
-      if (key === "," && trimmedInput.length && !tags.includes(trimmedInput)) {
+      if (
+        (key === "," || key === "Enter") &&
+        trimmedInput.length &&
+        !tags.includes(trimmedInput)
+      ) {
         e.preventDefault();
         setTags((prevState) => [...prevState, trimmedInput]);
+        const loadedState = loadState("_form");
+        const formData = {
+          ...loadedState,
+          tags: [...tags, trimmedInput],
+        };
+        localStorage.setItem("_form", JSON.stringify(formData));
         setTagInput("");
       }
 
@@ -50,9 +67,18 @@ export const useTags = () => {
     setIsKeyReleased(true);
   };
 
-  const deleteTag = (index: number) => {
-    setTags((prevState) => prevState.filter((tag, i) => i !== index));
-  };
+  const deleteTag = useCallback(
+    (index: number) => {
+      setTags((prevState) => prevState.filter((tag, i) => i !== index));
+      const loadedState = loadState("_form");
+      const formData = {
+        ...loadedState,
+        tags: tags.filter((tag, i) => i !== index),
+      };
+      localStorage.setItem("_form", JSON.stringify(formData));
+    },
+    [tags]
+  );
 
   return {
     tags,
