@@ -11,7 +11,7 @@ const Result = () => {
     <main>
       <iframe
         title="eKoin"
-        src={"http://hei-ekoin-dev-frontend.azurewebsites.net/test-link"}
+        src={"https://hei-ekoin-dev-frontend.azurewebsites.net/test-link"}
         allowFullScreen
         allow="camera;accelerometer;gyroscope"
         width="100%"
