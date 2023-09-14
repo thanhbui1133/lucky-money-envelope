@@ -12,8 +12,7 @@ const Result = () => {
       <iframe
         title="eKoin"
         src={"https://hei-ekoin-dev-frontend.azurewebsites.net/test-link"}
-        allowFullScreen
-        allow="camera;accelerometer;gyroscope"
+        allow="camera;accelerometer;gyroscope;magnetometer"
         width="100%"
         style={{
           height: "100vh",
