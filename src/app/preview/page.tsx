@@ -11,8 +11,8 @@ const Result = () => {
     <main>
       <iframe
         title="eKoin"
-        src={"https://hei-ekoin-dev-frontend.azurewebsites.net/test-link"}
-        allow="camera;accelerometer;gyroscope;magnetometer"
+        src={"https://webrtc.github.io/samples/src/content/getusermedia/gum/"}
+        allow="camera;microphone;accelerometer;gyroscope;magnetometer"
         width="100%"
         style={{
           height: "100vh",
